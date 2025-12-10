@@ -27,7 +27,27 @@ public:
         return *this;
     }
 
-     double get() const { return resource->get(); }
+       ResourceManager(ResourceManager&& other) noexcept : resource(other.resource)
+    {
+        other.resource = nullptr;
+    }
+
+    
+    ResourceManager& operator=(ResourceManager&& other) noexcept
+    {
+        if (this != &other) {
+            delete resource;
+            resource       = other.resource;
+            other.resource = nullptr;
+        }
+        return *this;
+    }
+
+    
+    double get() const { return resource->get(); }
+
+
+     
 
    ~ResourceManager() 
    { 
